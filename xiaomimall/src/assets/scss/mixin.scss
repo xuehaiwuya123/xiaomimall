@@ -1,0 +1,22 @@
+// flex布局的应用
+@mixin flexFun($hov: space-between, $col: center) {
+    display: flex;
+    justify-content: $hov;
+    align-items: $col;
+}
+// 背景图片的应用
+@mixin bgImgFun($w: 0, $h: 0,$url:'',$size:contain) {
+    display: inline-block;
+    width: $w;
+    height: $h;
+    background: url($url) no-repeat center;
+    background-size: $size;
+}
+
+// 伪元素的设置
+@mixin fakeFun($w:0,$h:0) {
+    display: inline-block;
+    content: "";
+    width: $w;
+    height: $h;
+}

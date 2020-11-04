@@ -18,11 +18,58 @@
     </div>
     <div class="top-header">
       <div class="container">
-        <div class="logo"></div>
+        <div class="header-logo">
+          <a href="/#/index"></a>
+        </div>
         <div class="menu">
-          <a>小米手机</a>
-          <a>Red红米</a>
-          <a>电视</a>
+          <a class="menu-item">
+            <span>小米手机</span>
+            <div class="children">
+              <div
+                class="child-item"
+                v-for="(item, index) in phoneList"
+                :key="index"
+              >
+                <div class="img">
+                  <img :src="getImgFun(item)" alt="" />
+                </div>
+                <p class="info">{{ item.info }}</p>
+                <p class="price">{{ item.price }}</p>
+              </div>
+            </div>
+          </a>
+          <a>
+            <span>Red红米</span>
+            <div class="children">
+              <div
+                class="child-item"
+                v-for="(item, index) in phoneList"
+                :key="index"
+              >
+                <div class="img">
+                  <img :src="getImgFun(item)" alt="" />
+                </div>
+                <p class="info">{{ item.info }}</p>
+                <p class="price">{{ item.price }}</p>
+              </div>
+            </div>
+          </a>
+          <a>
+            <span> 电视 </span>
+            <div class="children">
+              <div
+                class="child-item"
+                v-for="(item, index) in TVList"
+                :key="index"
+              >
+                <div class="img">
+                  <img :src="getImgFun(item, 'TV')" alt="" />
+                </div>
+                <p class="info">{{ item.info }}</p>
+                <p class="price">{{ item.price }}</p>
+              </div>
+            </div>
+          </a>
         </div>
         <div class="search">
           <div class="search-box">
@@ -39,10 +86,40 @@
 <script>
 export default {
   name: "nav-header",
+  data() {
+    return {
+      phoneList: [
+        { imgSrc: "phone-1", info: "小米手机", price: "9999元" },
+        { imgSrc: "phone-2", info: "小米手机", price: "9999元" },
+        { imgSrc: "phone-3", info: "小米手机", price: "9999元" },
+        { imgSrc: "phone-4", info: "小米手机", price: "9999元" },
+        { imgSrc: "phone-5", info: "小米手机", price: "9999元" },
+        { imgSrc: "phone-6", info: "小米手机", price: "9999元" },
+      ],
+      TVList: [
+        { imgSrc: "TV-1", info: "小米电视", price: "19999元" },
+        { imgSrc: "TV-2", info: "小米电视", price: "19999元" },
+        { imgSrc: "TV-3", info: "小米电视", price: "19999元" },
+        { imgSrc: "TV-4", info: "小米电视", price: "19999元" },
+        { imgSrc: "TV-5", info: "小米电视", price: "19999元" },
+        { imgSrc: "TV-6", info: "小米电视", price: "19999元" },
+      ],
+    };
+  },
+  methods: {
+    getImgFun(item, type) {
+      let imgType = `.png`;
+      if (type === "TV") {
+        imgType = `.jpg`;
+      }
+      return `imgs/nav-img/${item.imgSrc}${imgType}`;
+    },
+  },
 };
 </script>
 <style lang="scss">
 @import "./../assets/scss/base.scss";
+@import "./../assets/scss/mixin.scss";
 .nav-header {
   .nav-topBar {
     height: 39px;
@@ -50,8 +127,7 @@ export default {
     color: #b0b0b0;
     background-color: #333333;
     .container {
-      display: flex;
-      justify-content: space-between;
+      @include flexFun();
     }
     .left,
     .right {
@@ -76,31 +152,80 @@ export default {
     height: 112px;
     .container {
       height: 112px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .logo {
-        width: 55px;
-        height: 55px;
-        background: #ff6600 url("../../public/imgs/mi-logo.png") no-repeat;
-        background-size: contain;
-        cursor: pointer;
-      }
+      @include flexFun();
       .menu {
         width: 643px;
+        padding-left: 209px;
         a {
-          line-height: 112px;
+          display: inline-block;
           margin-right: 20px;
-          color: #333333;
-          font-weight: bold;
-          font-size: 16px;
-          cursor: pointer;
+          span {
+            display: inline-block;
+            line-height: 112px;
+            color: #333333;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+          }
+          &:hover {
+            .children {
+              height: 220px;
+              opacity: 1;
+              transition: all 0.5s;
+            }
+          }
+          .children {
+            z-index: 1;
+            width: 1226px;
+            height: 0;
+            opacity: 0;
+            position: absolute;
+            top: 112px;
+            left: 0;
+            overflow: hidden;
+            @include flexFun();
+            box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
+            transition: all 0.5s;
+            .child-item {
+              width: 16.6%;
+              height: 220px;
+              text-align: center;
+              position: relative;
+              &::after {
+                @include fakeFun(1px, 100px);
+                border-right: 1px solid #d7d7d7;
+                position: absolute;
+                top: 30px;
+                right: 0;
+              }
+              &:last-child::after {
+                display: none;
+              }
+              .img {
+                width: auto;
+                height: 111px;
+                margin-top: 26px;
+                img {
+                  width: auto;
+                  height: 111px;
+                }
+              }
+              .info {
+                font-weight: bold;
+                margin-top: 19px;
+                margin-bottom: 8px;
+                color: #333333;
+              }
+              .price {
+                color: #ff6600;
+              }
+            }
+          }
         }
       }
       .search {
         width: 320px;
-        display: flex;
-        align-items: center;
+        @include flexFun();
         .search-box {
           width: 264px;
           height: 50px;
@@ -121,11 +246,7 @@ export default {
           line-height: 56px;
           cursor: pointer;
           span {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            background: url("../../public/imgs/icon-search.png") no-repeat;
-            background-size: contain;
+            @include bgImgFun(18px, 18px, "/imgs/icon-search.png");
           }
         }
       }

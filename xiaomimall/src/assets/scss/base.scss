@@ -1,6 +1,31 @@
+@import './mixin.scss';
 .container {
     width: 1226px;
     position: relative;
     margin-left: auto;
     margin-right: auto;
 }
+
+// logo的公共样式
+.header-logo {
+    width: 55px;
+    background-color: rgb(255, 102, 0);
+    a {
+      display: inline-block;
+      width: 110px;
+      height: 55px;
+      &::before {
+        content: " ";
+        @include bgImgFun(55px, 55px, "/imgs/mi-logo.png");
+        transition: margin 0.5s;
+      }
+      &::after {
+        content: " ";
+        @include bgImgFun(55px, 55px, "/imgs/mi-home.png");
+      }
+      &:hover:before {
+        margin-left: -55px;
+        transition: margin 0.5s;
+      }
+    }
+  }
