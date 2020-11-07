@@ -31,9 +31,9 @@
                 :key="index"
               >
                 <div class="img">
-                  <img :src="getImgFun(item)" alt="" />
+                  <img :src="item.mainImage" alt="" />
                 </div>
-                <p class="info">{{ item.info }}</p>
+                <p class="info">{{ item.name }}</p>
                 <p class="price">{{ item.price }}</p>
               </div>
             </div>
@@ -47,9 +47,9 @@
                 :key="index"
               >
                 <div class="img">
-                  <img :src="getImgFun(item)" alt="" />
+                  <img :src="item.mainImage" alt="" />
                 </div>
-                <p class="info">{{ item.info }}</p>
+                <p class="info">{{ item.name }}</p>
                 <p class="price">{{ item.price }}</p>
               </div>
             </div>
@@ -106,7 +106,21 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.getProductList();
+  },
   methods: {
+    getProductList() {
+      this.axios.get("/products", {
+        params: {
+          categoryId: "100012"
+        },
+      }).then( res => {
+        if (res.list && res.list.length > 0) {
+          res.list.length > 6 ? this.phoneList = res.list.splice(0, 6) : this.phoneList = res.list
+        }
+      })
+    },
     getImgFun(item, type) {
       let imgType = `.png`;
       if (type === "TV") {
@@ -175,7 +189,7 @@ export default {
             }
           }
           .children {
-            z-index: 1;
+            z-index: 999;
             width: 1226px;
             height: 0;
             opacity: 0;
@@ -186,6 +200,7 @@ export default {
             @include flexFun();
             box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
             transition: all 0.5s;
+            background: #ffffff;
             .child-item {
               width: 16.6%;
               height: 220px;

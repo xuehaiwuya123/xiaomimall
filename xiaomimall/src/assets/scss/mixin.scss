@@ -16,7 +16,7 @@
 // 伪元素的设置
 @mixin fakeFun($w:0,$h:0) {
     display: inline-block;
-    content: "";
+    content: " ";
     width: $w;
     height: $h;
 }
