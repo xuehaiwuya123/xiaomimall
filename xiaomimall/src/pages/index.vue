@@ -143,6 +143,42 @@
                 <div class="swiper-button-next" slot="button-next"></div>
             </swiper>
         </div>
+        <div class="ads-box">
+            <div class="ads-box-list" v-for="(item, index) in adsBoxList" :Key="index">
+                <img :src="item.imgUrl" alt="" />
+            </div>
+        </div>
+        <div class="banner">
+            <div class="banner-img"></div>
+        </div>
+    </div>
+    <div class="phone-service">
+        <div class="container">
+            <div class="phone">
+                <div class="left-menu">
+                    <div class="left-menu-img"></div>
+                </div>
+                <div class="right-phone">
+                    <div class="phone-item" v-for="(item, index) in phoneList" :Key="index">
+                        <div class="main" v-for="(items, indexs) in item" :key="indexs">
+                            <p class="title">{{ items.name }}</p>
+                            <div class="img">
+                                <img :src="items.mainImage" alt="" />
+                            </div>
+                            <p class="name">{{ items.name }}</p>
+                            <p class="info">{{ items.subtitle }}</p>
+                            <div class="price-cart">
+                                <span class="price"> {{ items.price }}元 </span>
+                                <span class="icon-cart"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="service">
+                <serviceBar></serviceBar>
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -152,12 +188,14 @@ import {
     Swiper,
     SwiperSlide
 } from "vue-awesome-swiper";
+import serviceBar from "./../components/serviceBar";
 import "swiper/css/swiper.css";
 export default {
     name: "index",
     components: {
         Swiper,
         SwiperSlide,
+        serviceBar,
     },
     data() {
         return {
@@ -327,7 +365,39 @@ export default {
                     img: "/imgs/slider/slide-1.jpg",
                 },
             ],
+            adsBoxList: [{
+                    imgUrl: "/imgs/ads/ads-1.png",
+                },
+                {
+                    imgUrl: "/imgs/ads/ads-2.jpg",
+                },
+                {
+                    imgUrl: "/imgs/ads/ads-3.png",
+                },
+                {
+                    imgUrl: "/imgs/ads/ads-4.jpg",
+                },
+            ],
+            phoneList: [],
         };
+    },
+    created() {
+        this.getPhoneList();
+    },
+    methods: {
+        getPhoneList() {
+            this.axios
+                .get("/products", {
+                    params: {
+                        categoryId: 100012,
+                        pageSize: 14,
+                    },
+                })
+                .then((res) => {
+                    // 注意这里报错
+                    this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
+                });
+        },
     },
 };
 </script>
@@ -337,8 +407,10 @@ export default {
 @import "./../assets/scss/mixin.scss";
 
 .index {
+    position: relative;
+
     .container {
-        position: relative;
+        padding-bottom: 20px;
 
         .menu {
             width: 264px;
@@ -442,6 +514,111 @@ export default {
             img {
                 width: 100%;
                 height: 451px;
+            }
+        }
+
+        .ads-box {
+            margin-top: 20px;
+            @include flexFun();
+
+            .ads-box-list {
+                width: 296px;
+                height: 167px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+
+        .banner {
+            margin-top: 20px;
+
+            .banner-img {
+                @include bgImgFun(1226px, 130px, "/imgs/banner-1.png");
+            }
+        }
+
+    }
+
+    .phone-service {
+        padding-top: 20px;
+        background-color: #f5f5f5;
+
+        .phone {
+            display: flex;
+
+            .left-menu {
+                margin-right: 16px;
+                @include bgImgFun(224px, 619px, "/imgs/mix-alpha.jpg");
+                background-size: 224px 619px;
+            }
+
+            .right-phone {
+                width: 986px;
+                height: 619px;
+
+                .phone-item {
+                    @include flexFun();
+                    margin-bottom: 15px;
+
+                    .main {
+                        width: 236px;
+                        height: 302px;
+                        text-align: center;
+                        font-size: 14px;
+                        background: #fff;
+
+                        .title {
+                            width: 67px;
+                            height: 24px;
+                            line-height: 24px;
+                            margin-left: auto;
+                            margin-right: auto;
+                            background-color: #7ecf68;
+                            color: #fff;
+                        }
+
+                        .img {
+                            width: 236px;
+                            height: 200px;
+
+                            img {
+                                width: 100%;
+                                height: 150px;
+                                margin-top: 20px;
+                            }
+                        }
+
+                        .name {
+                            font-weight: bold;
+                            color: #333333;
+                        }
+
+                        .info {
+                            color: #999999;
+                            font-size: 12px;
+                            margin-top: 5px;
+                        }
+
+                        .price-cart {
+                            height: 30px;
+                            @include flexFun(center, center);
+
+                            .price {
+                                margin-right: 5px;
+                                color: #f20a0a;
+                                font-weight: bold;
+                                cursor: pointer;
+                            }
+
+                            .icon-cart {
+                                @include bgImgFun(22px, 22px, "/imgs/icon-cart-hover.png");
+                            }
+                        }
+                    }
+                }
             }
         }
     }
