@@ -1,0 +1,57 @@
+.modal {
+    z-index: 999;
+    @include positionFiex();
+    .mask {
+        @include positionFiex();
+        background: $colorI;
+        opacity: .5;
+    }
+    .content {
+        width: 660px;
+        min-height: 400px;
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%);
+        font-size: 16px;
+        .header {
+            height: 60px;
+            line-height: 60px;
+            background-color: #F5F5F5;
+            padding: 0 25px;
+            font-size: 14px;
+            @include flexFun(space-between, center); 
+            .icon-close {
+                @include bgImgFun(14px,14px, '/imgs/icon-close.png');
+                cursor: pointer;
+            }   
+        }
+        .body {
+            background: #fff;
+            padding: 40px 30px;
+            color: #333333;
+        }
+        .footer {
+            height: 82px;
+            line-height: 82px;
+            background-color: #F5F5F5;
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            .btnType {
+                height: 82px;
+                line-height: 82px;
+                span {
+                    cursor: pointer;
+                    display: inline-block;
+                    width: 110px;
+                    height: 40px;
+                    line-height: 40px;
+                    margin-right: 20px;
+                    background: #ff6600;
+
+                }
+            }
+        }
+    }
+}

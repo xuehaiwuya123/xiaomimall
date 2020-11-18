@@ -1,19 +1,35 @@
 <template>
-  <div id="app">
+<div id="app">
     <router-view></router-view>
-  </div>
+</div>
 </template>
 
 <script>
-
 export default {
-  name: 'App'
-}
+    name: "App",
+    mounted() {
+        this.getUser()
+        this.getCartCount()
+    },
+    methods: {
+        getUser() {
+            this.axios.get("/user").then(((res) => {
+                this.$store.dispatch('saveUserName', res.username)
+            }));
+        },
+        getCartCount() {
+            this.axios.get('/carts/products/sum').then((res) => {
+                console.log(res, 'resresresresres')
+                this.$store.dispatch('getCartCount', res)
+            })
+        }
+    },
+};
 </script>
 
 <style lang="scss">
-@import './assets/scss/config.scss';
-@import './assets/scss/reset.scss';
-#app {
-}
+@import "./assets/scss/config.scss";
+@import "./assets/scss/reset.scss";
+
+#app {}
 </style>

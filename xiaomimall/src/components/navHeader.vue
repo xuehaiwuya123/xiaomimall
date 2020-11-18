@@ -9,10 +9,10 @@
           <a>协议规则</a>
         </div>
         <div class="right">
-          <a>admin</a>
+          <a>{{username}}</a>
           <a>退出</a>
           <a>我的订单</a>
-          <a class="cart">购物车(0)</a>
+          <a class="cart">购物车({{cartCount}})</a>
         </div>
       </div>
     </div>
@@ -84,6 +84,7 @@
   </div>
 </template>
 <script>
+import {mapState } from 'vuex'
 export default {
   name: "nav-header",
   data() {
@@ -105,6 +106,15 @@ export default {
         { imgSrc: "TV-6", info: "小米电视", price: "19999元" },
       ],
     };
+  },
+  computed: {
+    // username () {
+    //   return this.$store.state.username
+    // },
+    // cartCount () {
+    //   return this.$store.state.cartCount
+    // },
+    ...mapState(['username','cartCount'])
   },
   mounted() {
     this.getProductList();

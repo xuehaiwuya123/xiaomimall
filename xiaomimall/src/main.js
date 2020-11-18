@@ -1,13 +1,22 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLazyload from 'vue-lazyload'
+import VueCookie from 'vue-cookie'
 import router from './router'
+import store from './store'
 import App from './App.vue'
 // import env from './env'
 
 // VueAxios的作用将axios挂载到vue上,这样不用每个使用的页面单独引入
 Vue.use(VueAxios,axios);
-
+Vue.use(VueCookie)
+// Vue.use(VueLazyload)
+Vue.use(VueLazyload, {
+  loading:'/imgs/loading-svg/loading-bars.svg',
+  // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
+  listenEvents: [ 'scroll' ]
+})
 // 根据前端跨域的方式进行调整，
 // 根据前端的跨域方式做调整 /a/b : /api/a/b => /a/b
 // axios.defaults.baseURL = 'https://www.easy-mock.com/mock/5dc7afee2b69d9223b633cbb/mimall';
@@ -30,12 +39,13 @@ axios.interceptors.response.use(function(response){
     alert(res.msg)
   }
 }, (error) => {
-  alert(error)
+    return Promise.reject(error)
 })
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

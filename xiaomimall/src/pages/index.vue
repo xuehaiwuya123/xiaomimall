@@ -11,7 +11,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -27,7 +27,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -43,7 +43,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -59,7 +59,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -75,7 +75,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -91,7 +91,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -107,7 +107,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -123,7 +123,7 @@
                     <ul v-for="(item, index) in menuList" :key="index">
                         <li class="item-list" v-for="(items, indexs) in item" :key="indexs">
                             <div class="content">
-                                <img :src="items.img" alt="" />
+                                <img v-lazy="items.img" alt="" />
                                 <span>{{ items.name }}</span>
                             </div>
                         </li>
@@ -135,7 +135,7 @@
             <swiper ref="mySwiper" :options="swiperOptions">
                 <swiper-slide v-for="(item, index) in slideList" :key="index">
                     <a href="javascript:;">
-                        <img :src="item.img" alt="" />
+                        <img v-lazy="item.img" alt="" />
                     </a>
                 </swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
@@ -145,7 +145,7 @@
         </div>
         <div class="ads-box">
             <div class="ads-box-list" v-for="(item, index) in adsBoxList" :Key="index">
-                <img :src="item.imgUrl" alt="" />
+                <img v-lazy="item.imgUrl" alt="" />
             </div>
         </div>
         <div class="banner">
@@ -163,13 +163,13 @@
                         <div class="main" v-for="(items, indexs) in item" :key="indexs">
                             <p class="title">{{ items.name }}</p>
                             <div class="img">
-                                <img :src="items.mainImage" alt="" />
+                                <img v-lazy="items.mainImage" alt="" />
                             </div>
                             <p class="name">{{ items.name }}</p>
                             <p class="info">{{ items.subtitle }}</p>
                             <div class="price-cart">
                                 <span class="price"> {{ items.price }}元 </span>
-                                <span class="icon-cart"></span>
+                                <span class="icon-cart" @click="addCart()"></span>
                             </div>
                         </div>
                     </div>
@@ -180,6 +180,13 @@
             </div>
         </div>
     </div>
+    <modal :showModal='showModal' title='提示' btnType="2" sureText="加入购物车" @closeFun='closeFun'>
+        <template v-slot:body>
+            <p>
+                加入购物车
+            </p>
+        </template>
+    </modal>
 </div>
 </template>
 
@@ -189,6 +196,7 @@ import {
     SwiperSlide
 } from "vue-awesome-swiper";
 import serviceBar from "./../components/serviceBar";
+import modal from './../components/modal'
 import "swiper/css/swiper.css";
 export default {
     name: "index",
@@ -196,6 +204,7 @@ export default {
         Swiper,
         SwiperSlide,
         serviceBar,
+        modal
     },
     data() {
         return {
@@ -379,6 +388,7 @@ export default {
                 },
             ],
             phoneList: [],
+            showModal: false
         };
     },
     created() {
@@ -398,6 +408,12 @@ export default {
                     this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
                 });
         },
+        addCart() {
+            this.showModal = true
+        },
+        closeFun(val) {
+            this.showModal = val
+        }
     },
 };
 </script>
@@ -615,6 +631,7 @@ export default {
 
                             .icon-cart {
                                 @include bgImgFun(22px, 22px, "/imgs/icon-cart-hover.png");
+                                cursor: pointer;
                             }
                         }
                     }
