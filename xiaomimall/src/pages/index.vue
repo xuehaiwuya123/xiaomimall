@@ -134,7 +134,7 @@
         <div class="swiper-box">
             <swiper ref="mySwiper" :options="swiperOptions">
                 <swiper-slide v-for="(item, index) in slideList" :key="index">
-                    <a href="javascript:;">
+                    <a href="javascript:;" @click="jumpProduct(item)">
                         <img v-lazy="item.img" alt="" />
                     </a>
                 </swiper-slide>
@@ -407,6 +407,13 @@ export default {
                     // 注意这里报错
                     this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
                 });
+        },
+        jumpProduct (item) {
+            this.$router.push(
+                {                
+                    path: '/product/' + item.id
+                }
+            )
         },
         addCart() {
             this.showModal = true

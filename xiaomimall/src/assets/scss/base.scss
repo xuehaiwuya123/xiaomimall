@@ -29,3 +29,14 @@
       }
     }
   }
+
+  // 常用按钮样式
+  .btn {
+    width: 110px;
+    height: 30px;
+    @include flexFun(center, center);
+    background-color: #FF7301;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+  }

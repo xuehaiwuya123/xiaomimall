@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="main">
-        <div class="login-img">
+        <div class="login-img" :class="{'login-img1':false}">
             <div class="">
                 <div class="login-form">
                     <div class="form-header">
@@ -78,8 +78,12 @@ export default {
             ],
             username: '',
             password: '',
-            userId: ''
+            userId: '',
+            bgImg: ''
         };
+    },
+    created () {
+        this.bgImg = `background-image: `
     },
     methods: {
         login() {
@@ -98,8 +102,7 @@ export default {
                 });
                 this.$store.dispatch('saveUserName', res.username)
                 this.$router.push({
-                    name: 'index',
-                    query: res
+                    name: 'index'
                 })
             }).catch(err => {
                 alert(err)
@@ -242,6 +245,9 @@ export default {
                     }
                 }
             }
+        }
+        .login-img1 {
+            background-image: url("/imgs/nav-img/phone-2.png");
         }
     }
 

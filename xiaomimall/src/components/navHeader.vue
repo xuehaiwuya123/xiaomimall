@@ -10,7 +10,7 @@
         </div>
         <div class="right">
           <a>{{username}}</a>
-          <a>退出</a>
+          <a class="login-out" @click="loginFun">退出</a>
           <a>我的订单</a>
           <a class="cart">购物车({{cartCount}})</a>
         </div>
@@ -131,6 +131,11 @@ export default {
         }
       })
     },
+    loginFun () {
+      this.$router.push({
+        name: 'login'
+      })
+    },
     getImgFun(item, type) {
       let imgType = `.png`;
       if (type === "TV") {
@@ -163,6 +168,10 @@ export default {
         text-align: center;
         background: #ff6600;
         color: #ffffff;
+      }
+      .login-out {
+                        cursor: pointer;
+
       }
       a {
         margin-right: 17px;
