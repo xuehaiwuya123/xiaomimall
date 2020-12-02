@@ -15,7 +15,7 @@
                     <span>{{ sureText }}</span>
                     <span>{{ cancelText }}</span>
                 </div>
-                <div class="btnType" v-if="btnType === '2'">
+                <div class="btnType" v-if="btnType === '2'"  @click="goCart">
                     <span>
                         {{ sureText }}
                     </span>
@@ -62,6 +62,9 @@ export default {
         closeFun() {
             this.$emit("closeFun", false);
         },
+        goCart() {
+            this.$emit('goCart')
+        }
     },
 };
 </script>

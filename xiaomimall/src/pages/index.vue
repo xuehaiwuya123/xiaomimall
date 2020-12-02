@@ -180,10 +180,10 @@
             </div>
         </div>
     </div>
-    <modal :showModal='showModal' title='提示' btnType="2" sureText="加入购物车" @closeFun='closeFun'>
+    <modal :showModal='showModal' title='提示' btnType="2" sureText="查看购物车" @closeFun='closeFun' @goCart='goCart'>
         <template v-slot:body>
             <p>
-                加入购物车
+                加入购物车成功
             </p>
         </template>
     </modal>
@@ -420,6 +420,11 @@ export default {
         },
         closeFun(val) {
             this.showModal = val
+        },
+        goCart () {
+            this.$router.push({
+                name: 'cart'
+            })
         }
     },
 };

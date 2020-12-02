@@ -94,7 +94,6 @@ export default {
         }
         a:nth-child(3):after {
           display: none;
-          background-color: red;
         }
         a:nth-child(2),
         a:nth-child(3) {
